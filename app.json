@@ -16,10 +16,22 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.schepsterwasp.spagyrics"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "output": "single",
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png",
+      "name": "Spagyrica",
+      "shortName": "Spagyrica",
+      "themeColor": "#08080f",
+      "backgroundColor": "#08080f",
+      "display": "standalone",
+      "orientation": "portrait"
+    },
+    "experiments": {
+      "baseUrl": "/spagyrica"
     }
   }
 }

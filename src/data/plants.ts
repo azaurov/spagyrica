@@ -1,0 +1,215 @@
+export interface Plant {
+  id: string;
+  name: string;
+  latinName: string;
+  planet: Planet;
+  element: string;
+  moonPhaseAffinity: string[];
+  harvestTime: string;
+  parts: string[];
+  properties: string[];
+  spagyricUse: string;
+  color: string;
+  description: string;
+}
+
+export type Planet = 'Sun' | 'Moon' | 'Mars' | 'Mercury' | 'Jupiter' | 'Venus' | 'Saturn';
+
+export const PLANET_COLORS: Record<Planet, string> = {
+  Sun:     '#F5C842',
+  Moon:    '#C8D8E8',
+  Mars:    '#C84040',
+  Mercury: '#7DBFA0',
+  Jupiter: '#9B6DCA',
+  Venus:   '#D47B8E',
+  Saturn:  '#A09060',
+};
+
+export const PLANET_SYMBOLS: Record<Planet, string> = {
+  Sun:     '☉',
+  Moon:    '☽',
+  Mars:    '♂',
+  Mercury: '☿',
+  Jupiter: '♃',
+  Venus:   '♀',
+  Saturn:  '♄',
+};
+
+export const PLANTS: Plant[] = [
+  {
+    id: 'chamomile',
+    name: 'Chamomile',
+    latinName: 'Matricaria chamomilla',
+    planet: 'Sun',
+    element: 'Water',
+    moonPhaseAffinity: ['Full Moon', 'Waxing Gibbous'],
+    harvestTime: 'Midsummer, morning after dew lifts',
+    parts: ['Flowers'],
+    properties: ['Anti-inflammatory', 'Nervine', 'Carminative', 'Antispasmodic'],
+    spagyricUse: 'Solar tincture for digestive harmony and solar plexus alignment',
+    color: '#F5C842',
+    description: 'Sacred to the Sun, chamomile radiates golden warmth. Its essential oil azulene turns deep blue upon distillation — a marker of its solar fire transmuted through the plant kingdom.',
+  },
+  {
+    id: 'mugwort',
+    name: 'Mugwort',
+    latinName: 'Artemisia vulgaris',
+    planet: 'Moon',
+    element: 'Earth',
+    moonPhaseAffinity: ['Full Moon', 'New Moon', 'Waning Crescent'],
+    harvestTime: 'Full Moon, midnight harvest by candlelight',
+    parts: ['Leaves', 'Aerial parts', 'Root'],
+    properties: ['Emmenagogue', 'Nervine', 'Oneirogenic', 'Digestive bitter'],
+    spagyricUse: 'Lunar tincture for dream work, divination, and feminine cycles',
+    color: '#C8D8E8',
+    description: 'Named for Artemis, goddess of the Moon, mugwort bridges the waking and dreaming worlds. The silver undersides of its leaves mirror lunar energy. Used for millennia to enhance prophetic dreaming.',
+  },
+  {
+    id: 'nettle',
+    name: 'Stinging Nettle',
+    latinName: 'Urtica dioica',
+    planet: 'Mars',
+    element: 'Fire',
+    moonPhaseAffinity: ['First Quarter', 'Waxing Gibbous'],
+    harvestTime: 'Spring equinox to first flowering, morning',
+    parts: ['Leaves', 'Seeds', 'Root'],
+    properties: ['Nutritive', 'Diuretic', 'Anti-inflammatory', 'Hemostatic'],
+    spagyricUse: 'Martial tincture for fortifying the blood, iron assimilation, and vital force',
+    color: '#C84040',
+    description: 'The sting of Mars made manifest — nettle demands respect. Its formic acid and silica content make it one of the most mineral-rich plants available. Calcination yields extraordinary mineral salts.',
+  },
+  {
+    id: 'lavender',
+    name: 'Lavender',
+    latinName: 'Lavandula angustifolia',
+    planet: 'Mercury',
+    element: 'Air',
+    moonPhaseAffinity: ['Waxing Crescent', 'First Quarter'],
+    harvestTime: 'Just before full bloom, midday',
+    parts: ['Flowers', 'Aerial parts'],
+    properties: ['Nervine', 'Antispasmodic', 'Antimicrobial', 'Carminative'],
+    spagyricUse: 'Mercurial tincture for nervous system balance and mental clarity',
+    color: '#9B80D4',
+    description: 'Mercury governs communication and the nervous system — lavender\'s linalool speaks directly to GABA receptors. Its essential oil is among the most complex, with over 100 identified compounds.',
+  },
+  {
+    id: 'sage',
+    name: 'Garden Sage',
+    latinName: 'Salvia officinalis',
+    planet: 'Jupiter',
+    element: 'Air',
+    moonPhaseAffinity: ['Waxing Gibbous', 'Full Moon'],
+    harvestTime: 'Before flowering, morning',
+    parts: ['Leaves', 'Flowers'],
+    properties: ['Antimicrobial', 'Astringent', 'Estrogenic', 'Nootropic'],
+    spagyricUse: 'Jovial tincture for wisdom, longevity, and liver support',
+    color: '#9B6DCA',
+    description: 'Salvia — from salvare, "to save." Jupiter expands and preserves; sage embodies this in every cell. Its name in every European language echoes the same truth: this plant saves lives.',
+  },
+  {
+    id: 'rose',
+    name: 'Rose',
+    latinName: 'Rosa damascena',
+    planet: 'Venus',
+    element: 'Water',
+    moonPhaseAffinity: ['Full Moon', 'Waxing Gibbous'],
+    harvestTime: 'Dawn, just as petals open, Full Moon',
+    parts: ['Petals', 'Hips', 'Root bark'],
+    properties: ['Nervine', 'Anti-inflammatory', 'Aphrodisiac', 'Heart tonic'],
+    spagyricUse: 'Venusian tincture for the heart, emotional healing, and the anima',
+    color: '#D47B8E',
+    description: 'Venus rules love, beauty, and the heart. Damascus rose requires 3–5 tons of petals for one liter of essential oil — making its sulfur principle among the most precious in the plant kingdom.',
+  },
+  {
+    id: 'comfrey',
+    name: 'Comfrey',
+    latinName: 'Symphytum officinale',
+    planet: 'Saturn',
+    element: 'Water',
+    moonPhaseAffinity: ['Waning Gibbous', 'Last Quarter', 'Waning Crescent'],
+    harvestTime: 'Autumn, waning moon, root harvest',
+    parts: ['Root', 'Leaves'],
+    properties: ['Vulnerary', 'Demulcent', 'Bone healing', 'Anti-inflammatory'],
+    spagyricUse: 'Saturnian tincture for structural repair, bones, and deep tissue healing',
+    color: '#A09060',
+    description: 'Saturn rules time, structure, and limits. Comfrey\'s allantoin promotes cell proliferation — it literally knits together what has been broken. Its deep taproot mines minerals from subsoil inaccessible to other plants.',
+  },
+  {
+    id: 'stjohnswort',
+    name: "St. John's Wort",
+    latinName: 'Hypericum perforatum',
+    planet: 'Sun',
+    element: 'Fire',
+    moonPhaseAffinity: ['Full Moon', 'Waxing Gibbous'],
+    harvestTime: 'Midsummer solstice, midday sun',
+    parts: ['Flowers', 'Buds', 'Aerial tips'],
+    properties: ['Antidepressant', 'Antiviral', 'Nervine', 'Anti-inflammatory'],
+    spagyricUse: 'Solar tincture for light-body work, depression, and viral conditions',
+    color: '#F5A020',
+    description: 'Harvested at the summer solstice — the Sun\'s apex. The red hypericin oil that bleeds from crushed flowers represents the solar sulfur at its most concentrated. Perforated leaves let light pass through: a solar signature.',
+  },
+  {
+    id: 'dandelion',
+    name: 'Dandelion',
+    latinName: 'Taraxacum officinale',
+    planet: 'Jupiter',
+    element: 'Air',
+    moonPhaseAffinity: ['Full Moon', 'Waxing Crescent'],
+    harvestTime: 'Spring through autumn, morning',
+    parts: ['Root', 'Leaves', 'Flowers'],
+    properties: ['Hepatic', 'Diuretic', 'Bitter tonic', 'Prebiotic'],
+    spagyricUse: 'Jovial tincture for liver expansion, bile production, and abundance',
+    color: '#E8C040',
+    description: 'Jupiter\'s most accessible plant — found everywhere, offering everything freely. The bitter inulin in the root feeds beneficial gut flora. Dandelion\'s deep taproot literally breaks apart compacted earth: Jovian expansion made physical.',
+  },
+  {
+    id: 'elderflower',
+    name: 'Elder',
+    latinName: 'Sambucus nigra',
+    planet: 'Venus',
+    element: 'Water',
+    moonPhaseAffinity: ['Full Moon', 'Waxing Gibbous', 'Waning Gibbous'],
+    harvestTime: 'Flowers: early summer. Berries: autumn equinox',
+    parts: ['Flowers', 'Berries', 'Inner bark', 'Leaves'],
+    properties: ['Antiviral', 'Diaphoretic', 'Immune modulating', 'Expectorant'],
+    spagyricUse: 'Venusian tincture for viral protection, beauty, and liminal crossings',
+    color: '#C8A8C0',
+    description: 'Elder is the most sacred of Venus\'s plants — every part is medicine, yet every part raw is poison. It demands transformation, the very essence of spagyrics. European tradition placed elder at the threshold between worlds.',
+  },
+  {
+    id: 'valerian',
+    name: 'Valerian',
+    latinName: 'Valeriana officinalis',
+    planet: 'Mercury',
+    element: 'Earth',
+    moonPhaseAffinity: ['Waning Crescent', 'New Moon', 'Last Quarter'],
+    harvestTime: 'Autumn, after first frost, root harvest',
+    parts: ['Root'],
+    properties: ['Sedative', 'Anxiolytic', 'Antispasmodic', 'Hypnotic'],
+    spagyricUse: 'Mercurial tincture for deep nervous system reset and sleep restoration',
+    color: '#7DBFA0',
+    description: 'Mercury paradoxically governs both stimulation and the fastest messenger — valerian transmits the message of rest. Its valerenic acid modulates GABA. The root\'s pungent odor intensifies with age: its salt principle concentrating over time.',
+  },
+  {
+    id: 'yarrow',
+    name: 'Yarrow',
+    latinName: 'Achillea millefolium',
+    planet: 'Venus',
+    element: 'Air',
+    moonPhaseAffinity: ['Full Moon', 'Waxing Gibbous'],
+    harvestTime: 'Midsummer, when flowers fully open, noon',
+    parts: ['Aerial parts', 'Flowers'],
+    properties: ['Hemostatic', 'Diaphoretic', 'Anti-inflammatory', 'Bitter tonic'],
+    spagyricUse: 'Venusian/Martial tincture — boundaries, wound healing, and spiritual protection',
+    color: '#E8E0C0',
+    description: 'Named for Achilles, who used it on the battlefield. Yarrow occupies a unique place: Venus\'s gentleness meets Mars\'s warrior function. It stops bleeding and opens pores simultaneously — integration of opposites.',
+  },
+];
+
+export function getPlantsByPlanet(planet: Planet): Plant[] {
+  return PLANTS.filter(p => p.planet === planet);
+}
+
+export function getPlantsByMoonPhase(phaseName: string): Plant[] {
+  return PLANTS.filter(p => p.moonPhaseAffinity.includes(phaseName));
+}
