@@ -98,14 +98,23 @@ export default function PreparationScreen() {
           )}
           <View style={{ flex: 1 }} />
           <TouchableOpacity
-            style={[styles.completeBtn, { backgroundColor: STEP_COLORS[active] }]}
+            style={[
+              styles.completeBtn,
+              completed.has(active)
+                ? { backgroundColor: 'transparent', borderWidth: 1, borderColor: STEP_COLORS[active] }
+                : { backgroundColor: STEP_COLORS[active] },
+            ]}
             onPress={() => {
-              setCompleted(prev => new Set([...prev, active]));
-              if (active < PREPARATION_STEPS.length - 1) setActive(active + 1);
+              if (completed.has(active)) {
+                setCompleted(prev => { const n = new Set(prev); n.delete(active); return n; });
+              } else {
+                setCompleted(prev => new Set([...prev, active]));
+                if (active < PREPARATION_STEPS.length - 1) setActive(active + 1);
+              }
             }}
           >
-            <Text style={styles.completeBtnText}>
-              {completed.has(active) ? 'Done ✓' : active === PREPARATION_STEPS.length - 1 ? 'Complete' : 'Done → Next'}
+            <Text style={[styles.completeBtnText, completed.has(active) && { color: STEP_COLORS[active] }]}>
+              {completed.has(active) ? 'Undo ✕' : active === PREPARATION_STEPS.length - 1 ? 'Complete' : 'Done → Next'}
             </Text>
           </TouchableOpacity>
         </View>
