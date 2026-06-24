@@ -24,6 +24,14 @@ export default function PreparationScreen() {
     <View style={styles.root}>
       {/* Progress stepper */}
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.stepper}>
+        {completed.size > 0 && (
+          <TouchableOpacity
+            style={styles.resetBtn}
+            onPress={() => { setCompleted(new Set()); setActive(0); }}
+          >
+            <Text style={styles.resetBtnText}>↺ Reset</Text>
+          </TouchableOpacity>
+        )}
         {PREPARATION_STEPS.map((s, i) => {
           const done = completed.has(i);
           const isActive = i === active;
@@ -142,6 +150,17 @@ const styles = StyleSheet.create({
     borderColor: C.border,
     maxHeight: 110,
   },
+  resetBtn: {
+    alignSelf: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(200,64,64,0.4)',
+    borderRadius: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    marginRight: 12,
+    backgroundColor: 'rgba(200,64,64,0.08)',
+  },
+  resetBtnText: { fontSize: 12, color: '#c84040', fontWeight: '600' },
   stepperItem: { alignItems: 'center', width: 72, marginRight: 8 },
   stepBubble: {
     width: 36, height: 36, borderRadius: 18,
