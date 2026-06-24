@@ -161,11 +161,27 @@ export default function RemedyScreen() {
         {totalSelected > 0 && (
           <>
             <View style={styles.divider} />
+
+            {/* Active filter tags — dismissible inline */}
+            <View style={styles.activeFiltersRow}>
+              {selectedSymptoms.map(s => (
+                <TouchableOpacity key={s} style={styles.activeTagSymptom} onPress={() => toggleSymptom(s)} activeOpacity={0.7}>
+                  <Text style={styles.activeTagSymptomText}>{s} ×</Text>
+                </TouchableOpacity>
+              ))}
+              {selectedProps.map(p => (
+                <TouchableOpacity key={p} style={styles.activeTagProp} onPress={() => toggleProp(p)} activeOpacity={0.7}>
+                  <Text style={styles.activeTagPropText}>{p} ×</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+
             <Text style={styles.resultsHeading}>
               {matchingPlants.length === 0
-                ? 'No herbs match all selected filters'
-                : `${matchingPlants.length} herb${matchingPlants.length > 1 ? 's' : ''} found`}
+                ? `No herbs satisfy all ${totalSelected} criteria`
+                : `${matchingPlants.length} herb${matchingPlants.length > 1 ? 's' : ''} · all ${totalSelected} criteria matched`}
             </Text>
+
             {matchingPlants.map(plant => (
               <TouchableOpacity
                 key={plant.id}
@@ -350,6 +366,25 @@ const styles = StyleSheet.create({
   chipSuggestPropText: { fontSize: 13, color: 'rgba(201,168,76,0.7)' },
 
   divider: { height: 1, backgroundColor: C.border, marginVertical: 20 },
+  activeFiltersRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginBottom: 12 },
+  activeTagSymptom: {
+    backgroundColor: C.symptomActiveBg,
+    borderWidth: 1,
+    borderColor: C.symptomColor,
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  activeTagSymptomText: { fontSize: 12, color: C.symptomColor, fontWeight: '700' },
+  activeTagProp: {
+    backgroundColor: 'rgba(201,168,76,0.15)',
+    borderWidth: 1,
+    borderColor: C.gold,
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  activeTagPropText: { fontSize: 12, color: C.gold, fontWeight: '700' },
   resultsHeading: { fontSize: 13, color: C.muted, marginBottom: 14, letterSpacing: 0.4 },
 
   resultCard: {
