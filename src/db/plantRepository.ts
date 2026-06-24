@@ -42,9 +42,11 @@ export function searchPlants(query: string): Plant[] {
 
 export function filterPlants(symptomFilters: string[], propertyFilters: string[]): Plant[] {
   return PLANTS.filter(p => {
-    const symptomsMatch = symptomFilters.every(s => p.symptoms.includes(s));
-    const propsMatch = propertyFilters.every(prop => p.properties.includes(prop));
-    return symptomsMatch && propsMatch;
+    const symptomsMatch = symptomFilters.some(s => p.symptoms.includes(s));
+    const propsMatch = propertyFilters.some(prop => p.properties.includes(prop));
+    if (symptomFilters.length > 0 && propertyFilters.length > 0) return symptomsMatch || propsMatch;
+    if (symptomFilters.length > 0) return symptomsMatch;
+    return propsMatch;
   });
 }
 

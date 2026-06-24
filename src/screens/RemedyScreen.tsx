@@ -178,8 +178,8 @@ export default function RemedyScreen() {
 
             <Text style={styles.resultsHeading}>
               {matchingPlants.length === 0
-                ? `No herbs satisfy all ${totalSelected} criteria`
-                : `${matchingPlants.length} herb${matchingPlants.length > 1 ? 's' : ''} · all ${totalSelected} criteria matched`}
+                ? `No herbs match any of the ${totalSelected} selected criteria`
+                : `${matchingPlants.length} herb${matchingPlants.length > 1 ? 's' : ''} matching ${totalSelected} criteria`}
             </Text>
 
             {matchingPlants.map(plant => (
