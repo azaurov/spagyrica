@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Text } from 'react-native';
+import { Platform, Text, TouchableOpacity } from 'react-native';
 
 import MoonScreen from './src/screens/MoonScreen';
 import PlantsScreen from './src/screens/PlantsScreen';
@@ -24,6 +24,30 @@ function TabIcon({ icon, focused }: { icon: string; focused: boolean }) {
   return <Text style={{ fontSize: 22, opacity: focused ? 1 : 0.45 }}>{icon}</Text>;
 }
 
+function UpdateButton() {
+  const [label, setLabel] = useState('↻');
+  if (Platform.OS !== 'web') return null;
+
+  const handleUpdate = async () => {
+    setLabel('…');
+    try {
+      if ('serviceWorker' in navigator) {
+        const reg = await (navigator as any).serviceWorker.getRegistration();
+        if (reg) await reg.update();
+      }
+      (window as any).location.reload();
+    } catch {
+      setLabel('↻');
+    }
+  };
+
+  return (
+    <TouchableOpacity onPress={handleUpdate} style={{ marginRight: 16, padding: 4 }}>
+      <Text style={{ color: C.gold, fontSize: 20, fontWeight: '600' }}>{label}</Text>
+    </TouchableOpacity>
+  );
+}
+
 export default function App() {
   return (
     <NavigationContainer>
@@ -33,6 +57,7 @@ export default function App() {
           headerStyle: { backgroundColor: C.bg, borderBottomWidth: 1, borderBottomColor: C.border },
           headerTintColor: C.gold,
           headerTitleStyle: { fontWeight: '700', letterSpacing: 1 },
+          headerRight: () => <UpdateButton />,
           tabBarStyle: {
             backgroundColor: C.card,
             borderTopWidth: 1,
