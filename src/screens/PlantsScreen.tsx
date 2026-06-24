@@ -3,6 +3,7 @@ import {
   View, Text, ScrollView, TouchableOpacity, StyleSheet, Dimensions, Modal,
 } from 'react-native';
 import { getAllPlants, getAllPlanets, PLANET_COLORS, PLANET_SYMBOLS, Plant, Planet } from '../db/plantRepository';
+import { playTap, playSelect, playDismiss } from '../utils/sound';
 import PlantSVG from '../components/PlantSVG';
 
 const { width } = Dimensions.get('window');
@@ -36,7 +37,7 @@ export default function PlantsScreen() {
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filterRow}>
           <TouchableOpacity
             style={[styles.chip, filter === 'All' && styles.chipActive]}
-            onPress={() => setFilter('All')}
+            onPress={() => { playTap(); setFilter('All'); }}
           >
             <Text style={[styles.chipText, filter === 'All' && styles.chipTextActive]}>All</Text>
           </TouchableOpacity>
@@ -44,7 +45,7 @@ export default function PlantsScreen() {
             <TouchableOpacity
               key={p}
               style={[styles.chip, filter === p && styles.chipActive, { borderColor: PLANET_COLORS[p] }]}
-              onPress={() => setFilter(p)}
+              onPress={() => { playTap(); setFilter(p); }}
             >
               <Text style={{ fontSize: 14, marginRight: 4 }}>{PLANET_SYMBOLS[p]}</Text>
               <Text style={[styles.chipText, filter === p && { color: PLANET_COLORS[p] }]}>{p}</Text>
@@ -58,7 +59,7 @@ export default function PlantsScreen() {
             <TouchableOpacity
               key={plant.id}
               style={styles.card}
-              onPress={() => setSelected(plant)}
+              onPress={() => { playSelect(); setSelected(plant); }}
               activeOpacity={0.75}
             >
               <View style={[styles.cardHeader, { borderBottomColor: plant.color + '44' }]}>
@@ -119,7 +120,7 @@ export default function PlantsScreen() {
                   </View>
                 </>
               )}
-              <TouchableOpacity style={styles.closeBtn} onPress={() => setSelected(null)}>
+              <TouchableOpacity style={styles.closeBtn} onPress={() => { playDismiss(); setSelected(null); }}>
                 <Text style={styles.closeBtnText}>Close</Text>
               </TouchableOpacity>
             </ScrollView>

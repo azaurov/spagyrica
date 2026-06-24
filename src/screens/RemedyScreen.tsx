@@ -8,6 +8,7 @@ import {
   PLANET_COLORS, PLANET_SYMBOLS, Plant,
 } from '../db/plantRepository';
 import PlantSVG from '../components/PlantSVG';
+import { playTap, playSelect, playDismiss } from '../utils/sound';
 
 const C = {
   bg: '#08080f',
@@ -61,11 +62,15 @@ export default function RemedyScreen() {
   }, [matchingPlants, selectedSymptoms, selectedProps]);
 
   function toggleSymptom(s: string) {
-    setSelectedSymptoms(prev => prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s]);
+    const removing = selectedSymptoms.includes(s);
+    removing ? playDismiss() : playTap();
+    setSelectedSymptoms(prev => removing ? prev.filter(x => x !== s) : [...prev, s]);
   }
 
   function toggleProp(p: string) {
-    setSelectedProps(prev => prev.includes(p) ? prev.filter(x => x !== p) : [...prev, p]);
+    const removing = selectedProps.includes(p);
+    removing ? playDismiss() : playTap();
+    setSelectedProps(prev => removing ? prev.filter(x => x !== p) : [...prev, p]);
   }
 
   const totalSelected = selectedSymptoms.length + selectedProps.length;
@@ -101,7 +106,7 @@ export default function RemedyScreen() {
             <Text style={styles.activeLabel}>
               {totalSelected} filter{totalSelected > 1 ? 's' : ''} active
             </Text>
-            <TouchableOpacity onPress={() => { setSelectedSymptoms([]); setSelectedProps([]); }}>
+            <TouchableOpacity onPress={() => { playDismiss(); setSelectedSymptoms([]); setSelectedProps([]); }}>
               <Text style={styles.clearAll}>Clear all</Text>
             </TouchableOpacity>
           </View>
@@ -165,7 +170,7 @@ export default function RemedyScreen() {
               <TouchableOpacity
                 key={plant.id}
                 style={styles.resultCard}
-                onPress={() => setDetail(plant)}
+                onPress={() => { playSelect(); setDetail(plant); }}
                 activeOpacity={0.75}
               >
                 <PlantSVG plantId={plant.id} color={plant.color} size={54} />
@@ -265,7 +270,7 @@ export default function RemedyScreen() {
                   </View>
                 </>
               )}
-              <TouchableOpacity style={styles.closeBtn} onPress={() => setDetail(null)}>
+              <TouchableOpacity style={styles.closeBtn} onPress={() => { playDismiss(); setDetail(null); }}>
                 <Text style={styles.closeBtnText}>Close</Text>
               </TouchableOpacity>
             </ScrollView>

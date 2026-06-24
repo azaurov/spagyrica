@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { PREPARATION_STEPS } from '../data/preparation';
+import { playTap, playSelect, playDismiss } from '../utils/sound';
 
 const C = {
   bg: '#08080f',
@@ -27,7 +28,7 @@ export default function PreparationScreen() {
         {completed.size > 0 && (
           <TouchableOpacity
             style={styles.resetBtn}
-            onPress={() => { setCompleted(new Set()); setActive(0); }}
+            onPress={() => { playDismiss(); setCompleted(new Set()); setActive(0); }}
           >
             <Text style={styles.resetBtnText}>↺ Reset</Text>
           </TouchableOpacity>
@@ -37,7 +38,7 @@ export default function PreparationScreen() {
           const isActive = i === active;
           const color = STEP_COLORS[i];
           return (
-            <TouchableOpacity key={i} onPress={() => setActive(i)} style={styles.stepperItem}>
+            <TouchableOpacity key={i} onPress={() => { playTap(); setActive(i); }} style={styles.stepperItem}>
               <View style={[
                 styles.stepBubble,
                 isActive && { borderColor: color, backgroundColor: color + '22' },
@@ -100,7 +101,7 @@ export default function PreparationScreen() {
         {/* Navigation */}
         <View style={styles.navRow}>
           {active > 0 && (
-            <TouchableOpacity style={styles.navBtn} onPress={() => setActive(active - 1)}>
+            <TouchableOpacity style={styles.navBtn} onPress={() => { playTap(); setActive(active - 1); }}>
               <Text style={styles.navBtnText}>← Previous</Text>
             </TouchableOpacity>
           )}
@@ -114,8 +115,10 @@ export default function PreparationScreen() {
             ]}
             onPress={() => {
               if (completed.has(active)) {
+                playDismiss();
                 setCompleted(prev => { const n = new Set(prev); n.delete(active); return n; });
               } else {
+                playSelect();
                 setCompleted(prev => new Set([...prev, active]));
                 if (active < PREPARATION_STEPS.length - 1) setActive(active + 1);
               }
