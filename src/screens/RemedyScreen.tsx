@@ -49,6 +49,17 @@ export default function RemedyScreen() {
     return filterPlants(selectedSymptoms, selectedProps);
   }, [selectedSymptoms, selectedProps]);
 
+  const suggestions = useMemo(() => {
+    if (matchingPlants.length === 0) return { symptoms: [] as string[], props: [] as string[] };
+    const sugSymptoms = new Set<string>();
+    const sugProps = new Set<string>();
+    matchingPlants.forEach(p => {
+      p.symptoms.forEach(s => { if (!selectedSymptoms.includes(s)) sugSymptoms.add(s); });
+      p.properties.forEach(prop => { if (!selectedProps.includes(prop)) sugProps.add(prop); });
+    });
+    return { symptoms: Array.from(sugSymptoms).sort(), props: Array.from(sugProps).sort() };
+  }, [matchingPlants, selectedSymptoms, selectedProps]);
+
   function toggleSymptom(s: string) {
     setSelectedSymptoms(prev => prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s]);
   }
@@ -182,6 +193,38 @@ export default function RemedyScreen() {
           </>
         )}
 
+        {matchingPlants.length > 0 && (suggestions.symptoms.length > 0 || suggestions.props.length > 0) && (
+          <>
+            <View style={styles.divider} />
+            <Text style={styles.refineHeading}>Refine your search</Text>
+            <Text style={styles.refineSub}>Other symptoms and properties found in matched herbs</Text>
+            {suggestions.symptoms.length > 0 && (
+              <>
+                <Text style={[styles.sectionLabel, { marginTop: 12 }]}>More symptoms</Text>
+                <View style={styles.chipsWrap}>
+                  {suggestions.symptoms.map(s => (
+                    <TouchableOpacity key={s} style={[styles.chip, styles.chipSuggestSymptom]} onPress={() => toggleSymptom(s)} activeOpacity={0.7}>
+                      <Text style={styles.chipSuggestSymptomText}>+ {s}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </>
+            )}
+            {suggestions.props.length > 0 && (
+              <>
+                <Text style={[styles.sectionLabel, { marginTop: 12 }]}>More properties</Text>
+                <View style={styles.chipsWrap}>
+                  {suggestions.props.map(p => (
+                    <TouchableOpacity key={p} style={[styles.chip, styles.chipSuggestProp]} onPress={() => toggleProp(p)} activeOpacity={0.7}>
+                      <Text style={styles.chipSuggestPropText}>+ {p}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </>
+            )}
+          </>
+        )}
+
         <View style={{ height: 40 }} />
       </ScrollView>
 
@@ -288,6 +331,18 @@ const styles = StyleSheet.create({
   chipPropTextActive: { color: C.gold, fontWeight: '600' },
 
   noResults: { fontSize: 14, color: C.muted, fontStyle: 'italic', marginTop: 8 },
+  refineHeading: { fontSize: 14, fontWeight: '700', color: C.text, marginBottom: 4 },
+  refineSub: { fontSize: 12, color: C.muted, marginBottom: 4 },
+  chipSuggestSymptom: {
+    borderColor: 'rgba(122,171,204,0.22)',
+    borderStyle: 'dashed',
+  },
+  chipSuggestSymptomText: { fontSize: 13, color: 'rgba(122,171,204,0.7)' },
+  chipSuggestProp: {
+    borderColor: 'rgba(201,168,76,0.22)',
+    borderStyle: 'dashed',
+  },
+  chipSuggestPropText: { fontSize: 13, color: 'rgba(201,168,76,0.7)' },
 
   divider: { height: 1, backgroundColor: C.border, marginVertical: 20 },
   resultsHeading: { fontSize: 13, color: C.muted, marginBottom: 14, letterSpacing: 0.4 },
