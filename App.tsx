@@ -6,6 +6,7 @@ import { Text } from 'react-native';
 
 import MoonScreen from './src/screens/MoonScreen';
 import PlantsScreen from './src/screens/PlantsScreen';
+import RemedyScreen from './src/screens/RemedyScreen';
 import ChemistryScreen from './src/screens/ChemistryScreen';
 import PreparationScreen from './src/screens/PreparationScreen';
 
@@ -62,6 +63,15 @@ export default function App() {
             title: 'Plant Compendium',
             tabBarLabel: 'Plants',
             tabBarIcon: ({ focused }) => <TabIcon icon="🌿" focused={focused} />,
+          }}
+        />
+        <Tab.Screen
+          name="Remedy"
+          component={RemedyScreen}
+          options={{
+            title: 'Remedy Lookup',
+            tabBarLabel: 'Remedy',
+            tabBarIcon: ({ focused }) => <TabIcon icon="⚕️" focused={focused} />,
           }}
         />
         <Tab.Screen
