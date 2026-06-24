@@ -182,35 +182,45 @@ export default function RemedyScreen() {
                 : `${matchingPlants.length} herb${matchingPlants.length > 1 ? 's' : ''} matching ${totalSelected} criteria`}
             </Text>
 
-            {matchingPlants.map(plant => (
-              <TouchableOpacity
-                key={plant.id}
-                style={styles.resultCard}
-                onPress={() => { playSelect(); setDetail(plant); }}
-                activeOpacity={0.75}
-              >
-                <PlantSVG plantId={plant.id} color={plant.color} size={54} />
-                <View style={styles.resultInfo}>
-                  <Text style={styles.resultName}>{plant.name}</Text>
-                  <Text style={styles.resultLatin}>{plant.latinName}</Text>
-                  <Text style={[styles.resultPlanet, { color: PLANET_COLORS[plant.planet] }]}>
-                    {PLANET_SYMBOLS[plant.planet]} {plant.planet} · {plant.element}
-                  </Text>
-                  <View style={styles.tagRow}>
-                    {plant.symptoms.filter(s => selectedSymptoms.includes(s)).map(s => (
-                      <View key={s} style={styles.tagSymptomMatch}>
-                        <Text style={styles.tagSymptomText}>{s}</Text>
+            {matchingPlants.map(plant => {
+              const symHits = plant.symptoms.filter(s => selectedSymptoms.includes(s));
+              const propHits = plant.properties.filter(p => selectedProps.includes(p));
+              const score = symHits.length + propHits.length;
+              return (
+                <TouchableOpacity
+                  key={plant.id}
+                  style={styles.resultCard}
+                  onPress={() => { playSelect(); setDetail(plant); }}
+                  activeOpacity={0.75}
+                >
+                  <PlantSVG plantId={plant.id} color={plant.color} size={54} />
+                  <View style={styles.resultInfo}>
+                    <View style={styles.resultNameRow}>
+                      <Text style={styles.resultName}>{plant.name}</Text>
+                      <View style={styles.scoreBadge}>
+                        <Text style={styles.scoreText}>{score}/{totalSelected}</Text>
                       </View>
-                    ))}
-                    {plant.properties.filter(p => selectedProps.includes(p)).map(p => (
-                      <View key={p} style={styles.tagPropMatch}>
-                        <Text style={styles.tagPropText}>{p}</Text>
-                      </View>
-                    ))}
+                    </View>
+                    <Text style={styles.resultLatin}>{plant.latinName}</Text>
+                    <Text style={[styles.resultPlanet, { color: PLANET_COLORS[plant.planet] }]}>
+                      {PLANET_SYMBOLS[plant.planet]} {plant.planet} · {plant.element}
+                    </Text>
+                    <View style={styles.tagRow}>
+                      {symHits.map(s => (
+                        <View key={s} style={styles.tagSymptomMatch}>
+                          <Text style={styles.tagSymptomText}>{s}</Text>
+                        </View>
+                      ))}
+                      {propHits.map(p => (
+                        <View key={p} style={styles.tagPropMatch}>
+                          <Text style={styles.tagPropText}>{p}</Text>
+                        </View>
+                      ))}
+                    </View>
                   </View>
-                </View>
-              </TouchableOpacity>
-            ))}
+                </TouchableOpacity>
+              );
+            })}
           </>
         )}
 
@@ -398,7 +408,18 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   resultInfo: { flex: 1, paddingLeft: 14 },
-  resultName: { fontSize: 16, fontWeight: '700', color: C.text },
+  resultNameRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  resultName: { fontSize: 16, fontWeight: '700', color: C.text, flex: 1 },
+  scoreBadge: {
+    backgroundColor: 'rgba(201,168,76,0.15)',
+    borderWidth: 1,
+    borderColor: C.gold,
+    borderRadius: 10,
+    paddingHorizontal: 7,
+    paddingVertical: 2,
+    marginLeft: 8,
+  },
+  scoreText: { fontSize: 11, color: C.gold, fontWeight: '700' },
   resultLatin: { fontSize: 11, color: C.muted, fontStyle: 'italic', marginTop: 2 },
   resultPlanet: { fontSize: 12, fontWeight: '600', marginTop: 4 },
   tagRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 4, marginTop: 8 },
