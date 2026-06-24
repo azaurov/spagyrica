@@ -222,6 +222,15 @@ export default function RemedyScreen() {
                   <DetailRow label="Harvest" value={detail.harvestTime} />
                   <DetailRow label="Parts Used" value={detail.parts.join(', ')} />
                   <DetailRow label="Properties" value={detail.properties.join(', ')} />
+                  <View style={styles.contraBanner}>
+                    <Text style={styles.contraTitle}>⚠ Contraindications & Safety</Text>
+                    {detail.contraindications.map((c, i) => (
+                      <View key={i} style={styles.contraItem}>
+                        <Text style={styles.contraBullet}>•</Text>
+                        <Text style={styles.contraText}>{c}</Text>
+                      </View>
+                    ))}
+                  </View>
                   <View style={styles.spagyricBox}>
                     <Text style={styles.spagyricLabel}>Spagyric Application</Text>
                     <Text style={styles.spagyricText}>{detail.spagyricUse}</Text>
@@ -351,6 +360,18 @@ const styles = StyleSheet.create({
   detailRow: { borderTopWidth: 1, borderColor: 'rgba(255,255,255,0.06)', paddingVertical: 10 },
   detailLabel: { fontSize: 11, color: C.muted, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 3 },
   detailValue: { fontSize: 14, color: C.text },
+  contraBanner: {
+    backgroundColor: 'rgba(200,64,64,0.10)',
+    borderWidth: 1,
+    borderColor: 'rgba(200,64,64,0.35)',
+    borderRadius: 12,
+    padding: 14,
+    marginTop: 16,
+  },
+  contraTitle: { fontSize: 12, fontWeight: '700', color: '#c84040', marginBottom: 10, textTransform: 'uppercase', letterSpacing: 0.6 },
+  contraItem: { flexDirection: 'row', marginBottom: 7 },
+  contraBullet: { fontSize: 14, color: '#c84040', marginRight: 8, marginTop: 1 },
+  contraText: { flex: 1, fontSize: 13, color: '#d89080', lineHeight: 19 },
   spagyricBox: {
     backgroundColor: 'rgba(201,168,76,0.08)',
     borderRadius: 12,
