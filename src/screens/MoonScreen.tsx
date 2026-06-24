@@ -3,7 +3,7 @@ import {
   View, Text, ScrollView, StyleSheet, Dimensions,
 } from 'react-native';
 import { getMoonData, formatDate, MoonData } from '../utils/moonPhase';
-import { PLANTS, PLANET_COLORS, PLANET_SYMBOLS } from '../data/plants';
+import { getPlantsByMoonPhase, PLANET_COLORS, PLANET_SYMBOLS } from '../db/plantRepository';
 import MoonSVG from '../components/MoonSVG';
 
 const { width } = Dimensions.get('window');
@@ -26,9 +26,7 @@ export default function MoonScreen() {
     return () => clearInterval(id);
   }, []);
 
-  const recommendedPlants = PLANTS.filter(p =>
-    p.moonPhaseAffinity.includes(moon.phaseName)
-  );
+  const recommendedPlants = getPlantsByMoonPhase(moon.phaseName);
 
   const illumPct = Math.round(moon.illumination * 100);
   const dayNum = Math.round(moon.daysInCycle * 10) / 10;

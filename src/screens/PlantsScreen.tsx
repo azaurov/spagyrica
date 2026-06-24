@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity, StyleSheet, Dimensions, Modal,
 } from 'react-native';
-import { PLANTS, PLANET_COLORS, PLANET_SYMBOLS, Plant, Planet } from '../data/plants';
+import { getAllPlants, getAllPlanets, PLANET_COLORS, PLANET_SYMBOLS, Plant, Planet } from '../db/plantRepository';
 import PlantSVG from '../components/PlantSVG';
 
 const { width } = Dimensions.get('window');
@@ -17,13 +17,14 @@ const C = {
   border: 'rgba(201,168,76,0.18)',
 };
 
-const PLANETS: Planet[] = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'];
+const PLANETS = getAllPlanets();
+const ALL_PLANTS = getAllPlants();
 
 export default function PlantsScreen() {
   const [filter, setFilter] = useState<Planet | 'All'>('All');
   const [selected, setSelected] = useState<Plant | null>(null);
 
-  const visible = filter === 'All' ? PLANTS : PLANTS.filter(p => p.planet === filter);
+  const visible = filter === 'All' ? ALL_PLANTS : ALL_PLANTS.filter(p => p.planet === filter);
 
   return (
     <View style={styles.root}>

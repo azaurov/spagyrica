@@ -3,7 +3,10 @@ import {
   View, Text, ScrollView, TouchableOpacity, StyleSheet,
   TextInput, Modal,
 } from 'react-native';
-import { PLANTS, PLANET_COLORS, PLANET_SYMBOLS, Plant } from '../data/plants';
+import {
+  filterPlants, getAllSymptoms, getAllProperties,
+  PLANET_COLORS, PLANET_SYMBOLS, Plant,
+} from '../db/plantRepository';
 import PlantSVG from '../components/PlantSVG';
 
 const C = {
@@ -19,18 +22,6 @@ const C = {
   symptomBorder: 'rgba(122,171,204,0.35)',
   symptomActiveBg: 'rgba(122,171,204,0.15)',
 };
-
-function getAllSymptoms(): string[] {
-  const set = new Set<string>();
-  PLANTS.forEach(p => p.symptoms.forEach(s => set.add(s)));
-  return Array.from(set).sort();
-}
-
-function getAllProperties(): string[] {
-  const set = new Set<string>();
-  PLANTS.forEach(p => p.properties.forEach(prop => set.add(prop)));
-  return Array.from(set).sort();
-}
 
 const ALL_SYMPTOMS = getAllSymptoms();
 const ALL_PROPERTIES = getAllProperties();
@@ -54,14 +45,8 @@ export default function RemedyScreen() {
   );
 
   const matchingPlants = useMemo(() => {
-    const hasSymptoms = selectedSymptoms.length > 0;
-    const hasProps = selectedProps.length > 0;
-    if (!hasSymptoms && !hasProps) return [];
-    return PLANTS.filter(plant => {
-      const symptomsMatch = !hasSymptoms || selectedSymptoms.every(s => plant.symptoms.includes(s));
-      const propsMatch = !hasProps || selectedProps.every(p => plant.properties.includes(p));
-      return symptomsMatch && propsMatch;
-    });
+    if (selectedSymptoms.length === 0 && selectedProps.length === 0) return [];
+    return filterPlants(selectedSymptoms, selectedProps);
   }, [selectedSymptoms, selectedProps]);
 
   function toggleSymptom(s: string) {
